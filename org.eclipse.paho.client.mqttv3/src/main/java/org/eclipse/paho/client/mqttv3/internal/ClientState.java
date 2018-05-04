@@ -484,7 +484,8 @@ public class ClientState {
 	public void send(MqttWireMessage message, MqttToken token) throws MqttException {
 		final String methodName = "send";
 		if (message.isMessageIdRequired() && (message.getMessageId() == 0)) {
-				if(message instanceof MqttPublish  && (((MqttPublish) message).getMessage().getQos() != 0)){
+				// if(message instanceof MqttPublish  && (((MqttPublish) message).getMessage().getQos() != 0)){	// QOS为0会出现token被上一个消息移除，zjw
+				if(message instanceof MqttPublish){								// QOS为0会出现token被上一个消息移除，zjw
 						message.setMessageId(getNextMessageId());
 				}else if(message instanceof MqttPubAck ||
 						message instanceof MqttPubRec ||
